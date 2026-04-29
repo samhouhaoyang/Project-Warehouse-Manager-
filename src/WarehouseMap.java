@@ -10,7 +10,7 @@ public class WarehouseMap {
 
     // add the map variable here
     private final WarehouseGenerator generator;
-
+    private WarehouseCell[][] grid;
     /**
      * Constructs a new WarehouseMap.
      *
@@ -26,6 +26,7 @@ public class WarehouseMap {
         //TODO: set other variables here
 
         generateMap();
+
     }
 
     //DO NOT MODIFY THIS METHOD
@@ -37,6 +38,25 @@ public class WarehouseMap {
     private void initialiseGrid() {
         // TODO: initialise map by looping through Array
         // TODO: set the boundary, start position and mark everything else as open position
+        this.grid = new WarehouseCell[rows][cols];
+        char symbol;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if(i == 0 || i == rows - 1 || j == 0 || j == cols - 1){
+                    symbol = Constants.WALL;
+                } else if(i == 1 && j == 1) {
+                    symbol = Constants.START;
+                }else{
+                    symbol = Constants.AISLE;
+                }
+                grid[i][j] = new WarehouseCell(i, j, symbol);
+            }
+        }
+
+
+
+
+
 
     }
 
@@ -60,19 +80,36 @@ public class WarehouseMap {
 
     private int availableInnerCells() {
         return (rows - Constants.BOUNDARY_THICKNESS)
-                * (cols - Constants.BOUNDARY_THICKNESS) - Constants.START_OFFSET;
+                 * (cols - Constants.BOUNDARY_THICKNESS) - Constants.START_OFFSET;
+
     }
 
     private void placeRestrictedCells(int count) {
         //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places.
         // The maximum number of restricted places are defined by the count parameter in this method.
+        for (int i = 0; i < count; i++) {
+            WarehouseCell cell = findRandomEmptyCell();
+            if(cell != null){
+                cell.setSymbol(Constants.RESTRICTED);
+            }
+
+        }
     }
 
     private void placeShelves(int count) {
         //TODO: the total shelves to be created defined by the count parameter
         //TODO: based on number of shelves to be created, generate random row/col positions and fill up with Shelves.
         //TODO: for each shelf generated you need add items to the shelf
-        populateShelf(); // can modify this method to add parameters required to place items to shelf.
+        for (int i = 0; i < count; i++) {
+            WarehouseCell cell = findRandomEmptyCell();
+            if(cell != null){
+                cell.setSymbol(Constants.SHELF);
+                populateShelf(); // can modify this method to add parameters required to place items to shelf.
+            }
+
+        }
+
+
 
     }
 
@@ -81,11 +118,11 @@ public class WarehouseMap {
         int maxAttempts = rows * cols * 10;
 
         while (attempts < maxAttempts) {
-            int r = generator.generateInt(/*set the right arguments*/);
-            int c = generator.generateInt(/*set the right arguments*/);
+            int r = generator.generateInt(1, rows - 1);
+            int c = generator.generateInt(1,  cols - 1);
 
             WarehouseCell cell = grid[r][c];
-            if (/*TODO: Set the correct condition here*/) {
+            if (cell.getSymbol() == Constants.AISLE) {
                 return cell;
             }
             attempts++;
@@ -99,7 +136,48 @@ public class WarehouseMap {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
         // TODO: add items to the shelf
+
     }
 
+    private void printMap(WarehouseMap map) {
+        for (int i = 0; i < map.rows; i++) {
+            for (int j = 0; j < map.cols; j++) {
+                System.out.print(map.grid[i][j].getSymbol());
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
 
+    private void debugCounts() {
+        int wall = 0;
+        int start = 0;
+        int aisle = 0;
+        int shelf = 0;
+        int restricted = 0;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                char symbol = grid[r][c].getSymbol();
+
+                if (symbol == Constants.WALL) {
+                    wall++;
+                } else if (symbol == Constants.START) {
+                    start++;
+                } else if (symbol == Constants.AISLE) {
+                    aisle++;
+                } else if (symbol == Constants.SHELF) {
+                    shelf++;
+                } else if (symbol == Constants.RESTRICTED) {
+                    restricted++;
+                }
+            }
+        }
+
+        System.out.println("Wall: " + wall);
+        System.out.println("Start: " + start);
+        System.out.println("Aisle: " + aisle);
+        System.out.println("Shelf: " + shelf);
+        System.out.println("Restricted: " + restricted);
+    }
 }
