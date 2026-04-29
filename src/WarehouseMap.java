@@ -7,9 +7,10 @@ public class WarehouseMap {
 
     private final int rows;
     private final int cols;
-
+    private static int id = 0;
     // add the map variable here
     private final WarehouseGenerator generator;
+    private WarehouseCell[][] grid;
 
     /**
      * Constructs a new WarehouseMap.
@@ -24,7 +25,7 @@ public class WarehouseMap {
         this.generator = new WarehouseGenerator(seed);
 
         //TODO: set other variables here
-
+        id += 1;
         generateMap();
     }
 
@@ -36,7 +37,35 @@ public class WarehouseMap {
 
     private void initialiseGrid() {
         // TODO: initialise map by looping through Array
+
+        grid = new WarehouseCell[rows][cols];
+
         // TODO: set the boundary, start position and mark everything else as open position
+        // set up Start
+        grid[1][1].setCellType(Constants.CellType.START);
+
+        for(int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++) {
+                WarehouseCell currCell;
+                currCell = grid[i][j];
+                // set up position
+                currCell.setX(i);
+                currCell.setY(j);
+
+                // set boundary
+                if (i == 0 | j == 0 | i == rows - 1 | j ==  cols - 1){
+                    currCell.setCellType(Constants.CellType.WALL);
+                }else {
+                    currCell.setCellType(Constants.CellType.AISLE);
+                }
+
+            }
+        }
+
+
+
+
+
 
     }
 
@@ -66,6 +95,8 @@ public class WarehouseMap {
     private void placeRestrictedCells(int count) {
         //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places.
         // The maximum number of restricted places are defined by the count parameter in this method.
+        return
+
     }
 
     private void placeShelves(int count) {

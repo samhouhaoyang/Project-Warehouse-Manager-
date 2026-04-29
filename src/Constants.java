@@ -1,7 +1,7 @@
 /**
- Student Name -
- Student Id -
- Student email -
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
  */
 
 public final class Constants {
@@ -25,4 +25,11 @@ public final class Constants {
 
     public static final int MIN_ITEMS_PER_SHELF = 1;
     public static final int MAX_ITEMS_PER_SHELF = 4;
+
+    public static final int NUM_INPUT_ARGS = 3;
+    public static final int MIN_MAP_LENGTH = 4;
+    public enum CellType {WALL, AISLE, RESTRICTED, SHELF, START, FORKLIFT};
+    //public enum OperationType {};
+    public static final int BOUNDARY_THICKNESS = 2;
+    public static final int START_OFFSET = 1;
 }
