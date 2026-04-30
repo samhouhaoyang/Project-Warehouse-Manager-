@@ -1,17 +1,32 @@
 public class WarehouseCell {
-    public static int count = 0;
     private int row;
     private int col;
     private char symbol;
+    private Shelf shelf;
+
     public WarehouseCell(int row, int col, char symbol) {
         this.row = row;
         this.col = col;
         this.symbol = symbol;
-        count++;
+        this.shelf = null;
+
     }
-    WarehouseCell(int row, int col) {
-        count++;
+    public WarehouseCell(int row, int col, char symbol, Shelf shelf) {
+        this.row = row;
+        this.col = col;
+        this.symbol = symbol;
+        this.shelf = shelf;
+
     }
+
+
+    public void setShelf(Shelf shelf) {
+        this.shelf = shelf;
+    }
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
+
     public int getRow() {
         return row;
     }
@@ -21,18 +36,8 @@ public class WarehouseCell {
     public char getSymbol() {
         return symbol;
     }
-    public void getRow(int row) {
-        this.row = row;
+    public Shelf getShelf() {
+        return shelf;
     }
-    public void getCol(int col) {
-        this.col = col;
-    }
-    public void getSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-
 
 }

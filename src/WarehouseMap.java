@@ -26,7 +26,8 @@ public class WarehouseMap {
         //TODO: set other variables here
 
         generateMap();
-
+        //printMap();
+        //debugShelves();
     }
 
     //DO NOT MODIFY THIS METHOD
@@ -104,7 +105,7 @@ public class WarehouseMap {
             WarehouseCell cell = findRandomEmptyCell();
             if(cell != null){
                 cell.setSymbol(Constants.SHELF);
-                populateShelf(); // can modify this method to add parameters required to place items to shelf.
+                populateShelf(cell); // can modify this method to add parameters required to place items to shelf.
             }
 
         }
@@ -132,17 +133,28 @@ public class WarehouseMap {
         return null;
     }
 
-    private void populateShelf(/*TODO: add parameters here if required*/) {
+    private void populateShelf(WarehouseCell cell) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
         // TODO: add items to the shelf
+        Shelf shelf = new Shelf(cell.getRow(), cell.getCol(), itemCount);
+
+        for (int i = 0; i < itemCount; i++) {
+            String name = generator.randomItemName();
+            shelf.addItem(new Item(name));
+
+        }
+        cell.setShelf(shelf);
+
+        // shelf.printItems();
 
     }
 
-    private void printMap(WarehouseMap map) {
-        for (int i = 0; i < map.rows; i++) {
-            for (int j = 0; j < map.cols; j++) {
-                System.out.print(map.grid[i][j].getSymbol());
+
+    private void printMap() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(grid[i][j].getSymbol());
                 System.out.print(" ");
             }
             System.out.println();
@@ -180,4 +192,17 @@ public class WarehouseMap {
         System.out.println("Shelf: " + shelf);
         System.out.println("Restricted: " + restricted);
     }
+    public void debugShelves() {
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                WarehouseCell cell = grid[r][c];
+
+                if (cell.getSymbol() == Constants.SHELF) {
+                    System.out.println("Shelf at (" + r + ", " + c + "):");
+                    cell.getShelf().printItems();
+                }
+            }
+        }
+    }
+
 }
