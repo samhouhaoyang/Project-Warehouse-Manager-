@@ -1,34 +1,43 @@
 public class WarehouseCell {
-
-    public static int id = 0;
-    private Object CellType;
-
-    private enum CellType;
+    private int row;
+    private int col;
     private char symbol;
-    private int x;
-    private int y;
-    
-    WarehouseCell(){
-        id += 1;
+    private Shelf shelf;
+
+    public WarehouseCell(int row, int col, char symbol) {
+        this.row = row;
+        this.col = col;
+        this.symbol = symbol;
+        this.shelf = null;
+
+    }
+    public WarehouseCell(int row, int col, char symbol, Shelf shelf) {
+        this.row = row;
+        this.col = col;
+        this.symbol = symbol;
+        this.shelf = shelf;
+
     }
 
-    public static int getId() {
-        return id;
+
+    public void setShelf(Shelf shelf) {
+        this.shelf = shelf;
+    }
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
     }
 
-    public static void setId(int id) {
-        WarehouseCell.id = id;
+    public int getRow() {
+        return row;
+    }
+    public int getCol() {
+        return col;
+    }
+    public char getSymbol() {
+        return symbol;
+    }
+    public Shelf getShelf() {
+        return shelf;
     }
 
-    public void setCellType(enum Constants.CellType Constants.CellType wall) {
-        this.CellType = Constants.CellType;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

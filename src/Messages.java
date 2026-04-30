@@ -23,5 +23,13 @@ public final class Messages {
         System.out.print("> ");
     }
 
+    public static void hitMessage(){
+        System.out.println("Error move, you cannot move into a blocked cell");
+    }
+
+    public static void hasItemMessage(){
+        System.out.println("Current fork has an item already!");
+    }
+
 
 }

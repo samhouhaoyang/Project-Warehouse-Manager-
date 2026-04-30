@@ -1,7 +1,7 @@
 /**
- Student Name - Haoyang Hou
- Student Id - 1462169
- Student email - houhh@student.unimelb.edu.au
+ Student Name -
+ Student Id -
+ Student email -
  */
 
 public final class Constants {
@@ -10,7 +10,9 @@ public final class Constants {
             "Box", "Pallet", "Monitor", "Keyboard", "Chair",
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
-
+    public enum itemAction {VIEWED, PICKEDUP};
+    public enum operationType {MOVE, HIT_WALL, VIEW_SHELF, PICK_ITEM, PLACE_ITEM};
+    public enum direction {UP, DOWN, LEFT, RIGHT};
     public static final String HISTORY_HEADER_FORMATTER =
             "| %9s | %-15s | %-10s | %-5s | %-5s | %-19s |\n";
 
@@ -26,10 +28,13 @@ public final class Constants {
     public static final int MIN_ITEMS_PER_SHELF = 1;
     public static final int MAX_ITEMS_PER_SHELF = 4;
 
-    public static final int NUM_INPUT_ARGS = 3;
-    public static final int MIN_MAP_LENGTH = 4;
-    public enum CellType {WALL, AISLE, RESTRICTED, SHELF, START, FORKLIFT};
-    //public enum OperationType {};
+    public static final char WALL = '#';
+    public static final char AISLE = '.';
+    public static final char RESTRICTED = 'X';
+    public static final char SHELF = 'S';
+    public static final char START = 'O';
+    public static final char FORKLIFT = 'F';
+
     public static final int BOUNDARY_THICKNESS = 2;
     public static final int START_OFFSET = 1;
 }
