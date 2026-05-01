@@ -7,7 +7,7 @@ public class WarehouseMap {
 
     private final int rows;
     private final int cols;
-
+    private int warehouseId;
     // add the map variable here
     private final WarehouseGenerator generator;
     private WarehouseCell[][] grid;
@@ -21,13 +21,17 @@ public class WarehouseMap {
     public WarehouseMap(int rows, int cols, long seed) {
         this.rows = rows;
         this.cols = cols;
+        this.warehouseId = 0;
         this.generator = new WarehouseGenerator(seed);
 
         //TODO: set other variables here
 
-        generateMap();
+        initialiseNewWarehouse();
         //printMap();
         //debugShelves();
+    }
+    public int getWarehouseId() {
+        return warehouseId;
     }
     public int getRows(){
         return rows;
@@ -49,7 +53,13 @@ public class WarehouseMap {
         initialiseGrid();
         fillSpecialCells();
     }
-
+    private void initialiseNewWarehouse() { // this method is used to update the id everytime the constructor is called
+        warehouseId++;
+        generateMap();
+    }
+    public void reset() {
+        initialiseNewWarehouse();
+    }
     private void initialiseGrid() {
         // TODO: initialise map by looping through Array
         // TODO: set the boundary, start position and mark everything else as open position
@@ -67,11 +77,6 @@ public class WarehouseMap {
                 grid[i][j] = new WarehouseCell(i, j, symbol);
             }
         }
-
-
-
-
-
 
     }
 
@@ -183,6 +188,10 @@ public class WarehouseMap {
         }
     }
     public void printMap(Forklift forklift) {
+        System.out.println("Warehouse ID: " + warehouseId);
+        Messages.printLegend();
+        System.out.printf("Forklift at: (%d,%d)\n", forklift.getRow(), forklift.getCol());
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
 

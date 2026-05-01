@@ -41,12 +41,16 @@ public final class Messages {
                 "Q - Quit to main menu. ");
     }
     public static void printShelfMessage(){
+        System.out.println("Shelf Menu:");
         System.out.println("Press V to view items.");
         System.out.println("Press P to pick an item.");
         System.out.println("Press Q to exit shelf menu.");
     }
     public static void printPickItemMessage(){
         System.out.println("Enter item number to pick (e.g., 1): ");
+    }
+    public static void printLegend(){
+        System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift");
     }
 
 }

@@ -10,8 +10,8 @@ public final class Constants {
             "Box", "Pallet", "Monitor", "Keyboard", "Chair",
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
-    public enum itemAction {VIEWED, PICKEDUP};
-    public enum operationType {MOVE, HIT_WALL, VIEW_SHELF, PICK_ITEM, PLACE_ITEM};
+
+
     public enum direction {UP, DOWN, LEFT, RIGHT};
     public static final String HISTORY_HEADER_FORMATTER =
             "| %9s | %-15s | %-10s | %-5s | %-5s | %-19s |\n";

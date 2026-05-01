@@ -98,6 +98,10 @@ public class WarehouseManagerEngine {
     }
 
     private void resetShiftAndWarehouse() {
+        map.reset();
+        forklift.reset();
+        shiftPaused = false;
+        System.out.println("Warehouse reset.");
     }
 
     private void abandonAndExit() {
@@ -203,19 +207,30 @@ public class WarehouseManagerEngine {
                     // 1. PICK BUT FAIL
                     if (forklift.hasItem()) {
                         System.out.println("Forklift is already carrying an item.");
+                    } else if (shelf.isEmpty()) {
+                        System.out.println("No items is on the shelf.");
                     } else {
                         Messages.printPickItemMessage();
-                        int itemIndex = SCANNER.nextInt();
-                        Item pickedItem = shelf.pickItem(itemIndex);
+                        String itemInput = SCANNER.nextLine();
 
-                        if (pickedItem == null) {
-                            System.out.println("Invalid item index.");
-                        } else {
-                            forklift.pickUpItem(pickedItem);
-                            System.out.println("Picked up: " + pickedItem.getName()); // this is a debug line
-                            System.out.println("Item picked successfully.");
-                            // TODO: update operation history if success
+                        if (!isPositiveInteger(itemInput)){
+                            System.out.println("Invalid item index. Please enter a positive integer!");
+                        }else {
+                            int itemIndex = Integer.parseInt(itemInput) - 1;
+                            // since the item list start with 1 but java starts with 0 in an array
+                            Item pickedItem = shelf.pickItem(itemIndex);
 
+
+                            if (pickedItem == null) {
+                                System.out.println("Invalid item index.");
+                            } else {
+                                forklift.pickUpItem(pickedItem);
+                                System.out.println("Picked up: " + pickedItem.getName()); // this is a debug line
+                                System.out.println("Item picked successfully.");
+                                // TODO: update operation history if success
+
+
+                            }
                         }
                         // 2. SELECT PARTICULAR ITEM TO PICK
                     }
@@ -225,6 +240,21 @@ public class WarehouseManagerEngine {
             }
         }
 
+    }
+    private boolean isPositiveInteger(String input) {
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+
+            if (!Character.isDigit(currentChar)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

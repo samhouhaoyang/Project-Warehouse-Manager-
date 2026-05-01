@@ -6,13 +6,15 @@ public class Forklift {
     private Item item;
 
     public Forklift(){
+        reset();
+    }
+    public void reset() {
         this.col = Constants.START_COL;
         this.row = Constants.START_ROW;
         this.item = null;
         this.hitCount = 0;
         this.successCount = 0;
     }
-
     public int getCol(){
         return col;
     }

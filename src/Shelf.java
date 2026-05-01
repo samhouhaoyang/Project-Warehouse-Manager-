@@ -43,10 +43,14 @@ public class Shelf {
 
     public void viewItem(int index){
         if (index < 0 || index >= itemCount) {
-            System.out.println("No items at position " + index + " in shelf");
+            System.out.println("No items on this shelf.");
+            //for debug only needs to be removed at the end
+            System.out.println("No items at position " + (index + 1) + " in shelf");
             return;
         }
-        System.out.println("At (" + row + ", "+ col + ") index: " + index + " Name: " + items[index].getName());
+        // Here the item view list starts from 1 instead of index 0
+            // TODO: make sure the at (row, col) is removed after debugging
+        System.out.println((index + 1) + ". " + items[index].getName());
     }
 
     public Item pickItem(int index){
