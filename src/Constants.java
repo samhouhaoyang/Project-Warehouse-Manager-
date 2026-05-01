@@ -37,4 +37,7 @@ public final class Constants {
 
     public static final int BOUNDARY_THICKNESS = 2;
     public static final int START_OFFSET = 1;
+
+    public static final int START_COL = 1;
+    public static  final int START_ROW = 1;
 }

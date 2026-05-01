@@ -1,7 +1,7 @@
 public class OperationHistory {
     private int warehouseID;
     
-    private enum OperationType;
+    private enum OperationType{};
 
 
     public void addHistory(){

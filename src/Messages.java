@@ -31,5 +31,22 @@ public final class Messages {
         System.out.println("Current fork has an item already!");
     }
 
+    public static void printMovementMessage(){
+        System.out.println("Enter direction: \n" +
+                "U - Up. \n" +
+                "D - Down. \n" +
+                "L - Left. \n" +
+                "R - Right. \n" +
+                "T - Deliver carried item at START (O). \n" +
+                "Q - Quit to main menu. ");
+    }
+    public static void printShelfMessage(){
+        System.out.println("Press V to view items.");
+        System.out.println("Press P to pick an item.");
+        System.out.println("Press Q to exit shelf menu.");
+    }
+    public static void printPickItemMessage(){
+        System.out.println("Enter item number to pick (e.g., 1): ");
+    }
 
 }

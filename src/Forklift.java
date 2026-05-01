@@ -1,22 +1,94 @@
 public class Forklift {
-    public static int hitCount = 0;
-    public static int sucessCount = 0;
+    private int hitCount;
+    private int successCount;
+    private int col;
+    private int row;
     private Item item;
-    private boolean hasItem = false;
 
-    public Forklift(Item item) {
-        if(hasItem == false){
-            this.item = item;
-            this.hasItem = true;
-        }else{
-            Messages.hasItemMessage();
+    public Forklift(){
+        this.col = Constants.START_COL;
+        this.row = Constants.START_ROW;
+        this.item = null;
+        this.hitCount = 0;
+        this.successCount = 0;
+    }
+
+    public int getCol(){
+        return col;
+    }
+
+    public int getRow(){
+        return row;
+    }
+    public int getHitCount(){
+        return hitCount;
+    }
+
+    public int getSuccessCount() {
+        return successCount;
+    }
+
+    public Item getItem(){
+        return item;
+    }
+
+    public boolean hasItem() {
+        return item != null;
+    }
+
+
+    public int[] findDestination(Movement move){
+        int targetRow = row;
+        int targetCol = col;
+
+        switch (move){
+            case UP -> targetRow--;
+            case DOWN -> targetRow++;
+            case LEFT -> targetCol--;
+            case RIGHT -> targetCol++;
+            default -> {
+            }
         }
-    }
 
-    private boolean isLegalMove(WarehouseCell cell) {
-        // check for wall cell
-        return cell.getSymbol() != Constants.WALL && cell.getSymbol() != Constants.RESTRICTED;
+        return new int[]{targetRow, targetCol};
     }
 
 
+    public void moveTo(int newRow, int newCol){
+        row = newRow;
+        col = newCol;
+        successCount++;
+    }
+
+    public void recordHit(){
+        hitCount++;
+    }
+
+    public boolean pickUpItem(Item item){
+        if(this.item != null || item == null){
+            return false;
+        }
+
+        this.item = item;
+        return true;
+    }
+
+    public Item deliverItem(){
+        Item deliveredItem = item;
+        item = null;
+        return deliveredItem;
+    }
+
+    public boolean isAtStart(){
+        return row == Constants.START_ROW && col == Constants.START_COL;
+    }
+    /*
+    int[] destination = forklift.findDestination(move);
+
+    if (warehouseMap.isLegalMove(destination[0], destination[1])) {
+        forklift.moveTo(destination[0], destination[1]);
+    } else {
+        forklift.recordHit();
+    }
+     */
 }

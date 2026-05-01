@@ -29,7 +29,21 @@ public class WarehouseMap {
         //printMap();
         //debugShelves();
     }
+    public int getRows(){
+        return rows;
+    }
 
+    public int getCols(){
+        return cols;
+    }
+
+    public WarehouseCell[][] getGrid(){
+        return grid;
+    }
+
+    public WarehouseCell getCell(int row, int col){
+        return grid[row][col];
+    }
     //DO NOT MODIFY THIS METHOD
     private void generateMap() {
         initialiseGrid();
@@ -150,7 +164,6 @@ public class WarehouseMap {
 
     }
 
-
     private void printMap() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -160,6 +173,36 @@ public class WarehouseMap {
             System.out.println();
         }
     }
+    public void printMap(WarehouseMap map) {
+        for (int i = 0; i < map.getRows(); i++) {
+            for (int j = 0; j < map.getCols(); j++) {
+                System.out.print(map.getGrid()[i][j].getSymbol());
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+    public void printMap(Forklift forklift) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+
+                if (i == forklift.getRow() && j == forklift.getCol()){
+                    System.out.print(Constants.FORKLIFT);
+                }else{
+                    System.out.print(grid[i][j].getSymbol());
+                }
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    public boolean isLegalMove(WarehouseCell cell) {
+        // check for wall cell
+        return cell.getSymbol() != Constants.WALL && cell.getSymbol() != Constants.RESTRICTED;
+    }
+
+
 
     private void debugCounts() {
         int wall = 0;
