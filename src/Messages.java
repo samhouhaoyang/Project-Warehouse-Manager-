@@ -32,6 +32,7 @@ public final class Messages {
                 "T - Deliver carried item at START (O).\n" +
                 "Q - Quit to main menu.");
         System.out.print("> ");
+
     }
     public static void printShelfMessage(){
         System.out.println("Shelf Menu:");
@@ -41,8 +42,7 @@ public final class Messages {
         System.out.print("> ");
     }
     public static void printPickItemMessage(){
-        System.out.println("> Enter item number to pick (e.g., 1):");
-        System.out.print("> ");
+        System.out.println("Enter item number to pick (e.g., 1):");
     }
     public static void printLegend(){
         System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift");

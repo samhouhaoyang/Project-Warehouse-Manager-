@@ -138,7 +138,7 @@ public class WarehouseManagerEngine {
                 case QUIT -> {
                     shiftPaused = true;
                     isRunning = false;
-                    System.out.println("> Shift paused.");
+                    System.out.println("Shift paused.");
                 }
                 case DELIVER -> handleDelivery();
                 case INVALID -> System.out.println("Invalid input.");
