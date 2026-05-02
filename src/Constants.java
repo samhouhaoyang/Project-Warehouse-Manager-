@@ -1,7 +1,7 @@
 /**
- Student Name -
- Student Id -
- Student email -
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
  */
 
 public final class Constants {
@@ -11,8 +11,6 @@ public final class Constants {
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
 
-
-    public enum direction {UP, DOWN, LEFT, RIGHT};
     public static final String HISTORY_HEADER_FORMATTER =
             "| %9s | %-15s | %-10s | %-5s | %-5s | %-19s |\n";
 

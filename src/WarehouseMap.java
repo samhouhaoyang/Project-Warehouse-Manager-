@@ -189,7 +189,7 @@ public class WarehouseMap {
         }
     }
     public void printMap(Forklift forklift) {
-        System.out.println("Warehouse ID: " + warehouseId);
+        System.out.println("> Warehouse ID: " + warehouseId);
         Messages.printLegend();
         System.out.printf("Forklift at: (%d,%d)\n", forklift.getRow(), forklift.getCol());
 

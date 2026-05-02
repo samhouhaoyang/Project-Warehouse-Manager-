@@ -46,7 +46,7 @@ public class WarehouseManagerEngine {
             return;
         }
         if (Integer.parseInt(args[0]) < 4 || Integer.parseInt(args[1]) < 4) {
-            System.out.println("Error: Rows and columns must be at least 4 to allow proper map layout. ");
+            System.out.println("Error: Rows and columns must be at least 4 to allow proper map layout.");
         } else {
             int rows = Integer.parseInt(args[0]);
             int cols = Integer.parseInt(args[1]);
@@ -63,9 +63,6 @@ public class WarehouseManagerEngine {
                 Messages.printMainMenuCommands();
                 String input = SCANNER.nextLine();
                 int option = Integer.parseInt(input);
-                // we need to generate a map based on the inputs
-                // [here]
-
 
                 switch (option) {
                     case 1 -> startWarehouseShift();
@@ -141,7 +138,7 @@ public class WarehouseManagerEngine {
                 case QUIT -> {
                     shiftPaused = true;
                     isRunning = false;
-                    System.out.println("Shift paused.");
+                    System.out.println("> Shift paused.");
                 }
                 case DELIVER -> handleDelivery();
                 case INVALID -> System.out.println("Invalid input.");
