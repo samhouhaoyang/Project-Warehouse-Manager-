@@ -18,6 +18,7 @@ public class WarehouseManagerEngine {
 
     private WarehouseMap map;
     private Forklift forklift;
+    private OperationHistory history;
 
     private boolean running;
     private boolean shiftPaused;
@@ -53,7 +54,7 @@ public class WarehouseManagerEngine {
 
             map = new WarehouseMap(rows, cols, seed);
             forklift = new Forklift();
-
+            history = new OperationHistory();
             running = true;
             shiftPaused = false;
 
@@ -72,7 +73,7 @@ public class WarehouseManagerEngine {
                     case 3 -> viewOperationHistory();
                     case 4 -> resetShiftAndWarehouse();
                     case 5 -> abandonAndExit();
-                    default -> System.out.println("Error: Invalid option. Please try again.");
+                    default -> System.out.println("Invalid input.");
                 }
             }
 
@@ -86,7 +87,7 @@ public class WarehouseManagerEngine {
     }
     private void resumeLastShift() {
         if (!shiftPaused) {
-            System.out.println("No paused shift to resume.");
+            System.out.println("No shift to resume.");
             return;
         }
 
@@ -95,17 +96,19 @@ public class WarehouseManagerEngine {
     }
 
     private void viewOperationHistory() {
+        history.printHistory();
     }
 
     private void resetShiftAndWarehouse() {
         map.reset();
         forklift.reset();
         shiftPaused = false;
-        System.out.println("Warehouse reset.");
+        System.out.println("Shift and warehouse reset.");
     }
 
     private void abandonAndExit() {
         running = false;
+        System.out.println("Session abandoned. Goodbye!");
     }
 
     private Movement parseMovement(String input) {
@@ -161,9 +164,11 @@ public class WarehouseManagerEngine {
         }
 
         Item deliveredItem = forklift.deliverItem();
-        System.out.println("Delivered: " + deliveredItem.getName());
+        System.out.println("Item delivered successfully.");
 
         // TODO: add operation history required
+        history.addRecord(new OperationRecord(OperationType.PLACE_ITEM, map.getWarehouseId(),
+                forklift.getRow(), forklift.getCol(),deliveredItem.getName(),forklift.getSuccessCount(), forklift.getHitCount()) );
     }
     private void makeMove(Movement move){
         int[] destination = forklift.findDestination(move);
@@ -175,12 +180,18 @@ public class WarehouseManagerEngine {
            forklift.moveTo(targetRow,targetCol);
            // TODO:
            // add operation history
+            history.addRecord(new OperationRecord(OperationType.MOVE, map.getWarehouseId(),
+                    forklift.getRow(), forklift.getCol(),forklift.getSuccessCount(), forklift.getHitCount()) );
+
             if (targetCell.getSymbol() == Constants.SHELF){
                 runShelfSubMenu(targetCell.getShelf());
             }
         } else {
-            System.out.println("You cannot move there.");
+            System.out.println("You cannot enter that area.");
             forklift.recordHit();
+            // TODO: add operation history
+            history.addRecord(new OperationRecord(OperationType.HIT_WALL, map.getWarehouseId(),
+                    forklift.getRow(), forklift.getCol(),forklift.getSuccessCount(), forklift.getHitCount()) );
         }
     }
     private ShelfCommand parseShelfCommand(String input) {
@@ -202,13 +213,23 @@ public class WarehouseManagerEngine {
             ShelfCommand command = parseShelfCommand(input);
 
             switch (command) {
-                case VIEW -> shelf.printItems();
+                case VIEW -> {
+                    shelf.printItems();
+                    history.addRecord(new OperationRecord(
+                            OperationType.VIEW_SHELF,
+                            map.getWarehouseId(),
+                            forklift.getRow(),
+                            forklift.getCol(),
+                            forklift.getSuccessCount(),
+                            forklift.getHitCount()
+                    ));
+                }
                 case PICK -> {
                     // 1. PICK BUT FAIL
                     if (forklift.hasItem()) {
-                        System.out.println("Forklift is already carrying an item.");
+                        System.out.println("You are already carrying an item. Place it before picking another.");
                     } else if (shelf.isEmpty()) {
-                        System.out.println("No items is on the shelf.");
+                        System.out.println("No items on this shelf.");
                     } else {
                         Messages.printPickItemMessage();
                         String itemInput = SCANNER.nextLine();
@@ -225,18 +246,22 @@ public class WarehouseManagerEngine {
                                 System.out.println("Invalid item index.");
                             } else {
                                 forklift.pickUpItem(pickedItem);
-                                System.out.println("Picked up: " + pickedItem.getName()); // this is a debug line
+                                //System.out.println("Picked up: " + pickedItem.getName()); // this is a debug line
                                 System.out.println("Item picked successfully.");
                                 // TODO: update operation history if success
 
-
+                                history.addRecord(new OperationRecord(OperationType.PICK_ITEM, map.getWarehouseId(),
+                                        forklift.getRow(), forklift.getCol(),forklift.getItem().getName(),
+                                        forklift.getSuccessCount(), forklift.getHitCount()) );
                             }
                         }
                         // 2. SELECT PARTICULAR ITEM TO PICK
                     }
                 }
                 case QUIT -> inShelfMenu = false;
-                case INVALID -> System.out.println("Invalid input.");
+                case INVALID -> {
+                    System.out.println("Invalid input.");
+                }
             }
         }
 

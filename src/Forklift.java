@@ -84,13 +84,5 @@ public class Forklift {
     public boolean isAtStart(){
         return row == Constants.START_ROW && col == Constants.START_COL;
     }
-    /*
-    int[] destination = forklift.findDestination(move);
 
-    if (warehouseMap.isLegalMove(destination[0], destination[1])) {
-        forklift.moveTo(destination[0], destination[1]);
-    } else {
-        forklift.recordHit();
-    }
-     */
 }

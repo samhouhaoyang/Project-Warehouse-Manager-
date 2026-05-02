@@ -40,4 +40,6 @@ public final class Constants {
 
     public static final int START_COL = 1;
     public static  final int START_ROW = 1;
+
+    public static final int INITIAL_CAPACITY = 10;
 }
