@@ -63,20 +63,18 @@ public class WarehouseManagerEngine {
                 Messages.printMainMenuCommands();
                 String input = SCANNER.nextLine();
                 int option = 0;
-                if (!isPositiveInteger(input)) {
-                    System.out.println("Invalid input.");
-                } else {
+                if (isPositiveInteger(input)) {
                     option = Integer.parseInt(input);
                 }
-                    switch (option) {
-                        case 1 -> startWarehouseShift();
-                        case 2 -> resumeLastShift();
-                        case 3 -> viewOperationHistory();
-                        case 4 -> resetShiftAndWarehouse();
-                        case 5 -> abandonAndExit();
-                        default -> System.out.println("Invalid input.");
-                    }
+                switch (option) {
+                    case 1 -> startWarehouseShift();
+                    case 2 -> resumeLastShift();
+                    case 3 -> viewOperationHistory();
+                    case 4 -> resetShiftAndWarehouse();
+                    case 5 -> abandonAndExit();
+                    default -> System.out.println("Invalid input.");
                 }
+            }
 
 
             }
@@ -266,7 +264,6 @@ public class WarehouseManagerEngine {
                                         forklift.getSuccessCount(), forklift.getHitCount()) );
                             }
                         }
-                        // 2. SELECT PARTICULAR ITEM TO PICK
                     }
                 }
                 case QUIT -> inShelfMenu = false;
