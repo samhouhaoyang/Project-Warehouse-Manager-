@@ -42,7 +42,7 @@ public final class Messages {
         System.out.print("> ");
     }
     public static void printPickItemMessage(){
-        System.out.println("Enter item number to pick (e.g., 1):");
+        System.out.print("Enter item number to pick (e.g., 1): ");
     }
     public static void printLegend(){
         System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift");

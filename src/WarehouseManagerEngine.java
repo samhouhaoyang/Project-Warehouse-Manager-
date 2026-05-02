@@ -64,7 +64,7 @@ public class WarehouseManagerEngine {
                 String input = SCANNER.nextLine();
                 int option = 0;
                 if (!isPositiveInteger(input)) {
-                    System.out.println("Invalid input。");
+                    System.out.println("Invalid input.");
                 } else {
                     option = Integer.parseInt(input);
                 }
@@ -258,7 +258,6 @@ public class WarehouseManagerEngine {
                                 System.out.println("Invalid item index.");
                             } else {
                                 forklift.pickUpItem(pickedItem);
-                                //System.out.println("Picked up: " + pickedItem.getName()); // this is a debug line
                                 System.out.println("Item picked successfully.");
                                 // TODO: update operation history if success
 
