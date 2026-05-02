@@ -3,13 +3,14 @@ public class Shelf {
     private int row;
     private int col;
     private int itemCount = 0;
-
+    private boolean visited;
 
     public Shelf(int row, int col, int size) {
         this.row = row;
         this.col = col;
         this.items = new Item[size];
         this.itemCount = 0;
+        this.visited = false;
     }
 
     // Items on a shelf can be viewed and picked up
@@ -21,6 +22,13 @@ public class Shelf {
         }
     }
 
+    public void markVisited() {
+        visited = true;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
     public boolean isEmpty(){
         return itemCount == 0;
     }

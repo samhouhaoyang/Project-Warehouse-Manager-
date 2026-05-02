@@ -144,9 +144,13 @@ public class WarehouseManagerEngine {
                     System.out.println("Shift paused.");
                 }
                 case DELIVER -> handleDelivery();
-                case INVALID -> {
-                    System.out.println("Invalid input.");
-                }
+                case INVALID -> System.out.println("Invalid input.");
+            }
+            // End shift automatically when it is complete
+            if (isRunning && isShiftCompleted()) {
+                map.printMap(forklift);
+                completeShift();
+                isRunning = false;
             }
         }
 
@@ -205,7 +209,7 @@ public class WarehouseManagerEngine {
         };
     }
     private void runShelfSubMenu(Shelf shelf){
-
+        shelf.markVisited();
         boolean inShelfMenu = true;
         while(inShelfMenu){
             Messages.printShelfMessage();
@@ -259,12 +263,21 @@ public class WarehouseManagerEngine {
                     }
                 }
                 case QUIT -> inShelfMenu = false;
-                case INVALID -> {
-                    System.out.println("Invalid input.");
-                }
+                case INVALID -> System.out.println("Invalid input.");
+
             }
         }
 
+    }
+    private boolean isShiftCompleted() {
+        return map.allShelvesVisitedAndEmpty() && !forklift.hasItem();
+    }
+    private void completeShift() {
+        System.out.println("Shift completed: all shelves visited and all items processed.");
+
+        map.reset();
+        forklift.reset();
+        shiftPaused = false;
     }
     private boolean isPositiveInteger(String input) {
         if (input == null || input.isEmpty()) {

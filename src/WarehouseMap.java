@@ -78,6 +78,7 @@ public class WarehouseMap {
             }
         }
 
+
     }
 
     //DO NOT MODIFY THIS METHOD
@@ -212,49 +213,23 @@ public class WarehouseMap {
     }
 
 
-
-    private void debugCounts() {
-        int wall = 0;
-        int start = 0;
-        int aisle = 0;
-        int shelf = 0;
-        int restricted = 0;
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                char symbol = grid[r][c].getSymbol();
-
-                if (symbol == Constants.WALL) {
-                    wall++;
-                } else if (symbol == Constants.START) {
-                    start++;
-                } else if (symbol == Constants.AISLE) {
-                    aisle++;
-                } else if (symbol == Constants.SHELF) {
-                    shelf++;
-                } else if (symbol == Constants.RESTRICTED) {
-                    restricted++;
-                }
-            }
-        }
-
-        System.out.println("Wall: " + wall);
-        System.out.println("Start: " + start);
-        System.out.println("Aisle: " + aisle);
-        System.out.println("Shelf: " + shelf);
-        System.out.println("Restricted: " + restricted);
-    }
-    public void debugShelves() {
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                WarehouseCell cell = grid[r][c];
+    public boolean allShelvesVisitedAndEmpty() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                WarehouseCell cell = grid[i][j];
 
                 if (cell.getSymbol() == Constants.SHELF) {
-                    System.out.println("Shelf at (" + r + ", " + c + "):");
-                    cell.getShelf().printItems();
+                    Shelf shelf = cell.getShelf();
+
+                    if (!shelf.isVisited() || !shelf.isEmpty()) {
+                        return false;
+                    }
                 }
             }
         }
+
+        return true;
     }
+
 
 }
