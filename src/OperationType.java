@@ -3,5 +3,6 @@ public enum OperationType {
     HIT_WALL,
     VIEW_SHELF,
     PICK_ITEM,
-    PLACE_ITEM
+    PLACE_ITEM,
+    HIT_RESTRICTED
 }

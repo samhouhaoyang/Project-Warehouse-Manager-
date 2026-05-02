@@ -52,8 +52,6 @@ public class Shelf {
     public void viewItem(int index){
         if (index < 0 || index >= itemCount) {
             System.out.println("No items on this shelf.");
-            //for debug only needs to be removed at the end
-            System.out.println("No items at position " + (index + 1) + " in shelf");
             return;
         }
         // Here the item view list starts from 1 instead of index 0
