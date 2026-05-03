@@ -62,7 +62,7 @@ public class Shelf {
     public Item pickItem(int index){
 
         if (index < 0 || index >= itemCount || items[index] == null){
-            System.out.println("No items at position " + index + " in shelf");
+            //System.out.println("No items at position " + index + " in shelf");
             return null;
         }
         Item picked = items[index];

@@ -62,6 +62,7 @@ public class WarehouseManagerEngine {
             while (running) {
                 Messages.printMainMenuCommands();
                 String input = SCANNER.nextLine();
+                input = input.trim();
                 int option = 0;
                 if (isPositiveInteger(input)) {
                     option = Integer.parseInt(input);
@@ -166,7 +167,7 @@ public class WarehouseManagerEngine {
         }
         private void handleDelivery () {
             if (!forklift.isAtStart()) {
-                System.out.println("Items can only be delivered at the start position.");
+                System.out.println("You must stand on the START cell (O) to deliver.");
                 return;
             }
 
@@ -253,6 +254,7 @@ public class WarehouseManagerEngine {
                     } else {
                         Messages.printPickItemMessage();
                         String itemInput = SCANNER.nextLine();
+                        itemInput = itemInput.trim();
 
                         if (!isPositiveInteger(itemInput)){
                             System.out.println("Invalid item index.");
@@ -294,7 +296,13 @@ public class WarehouseManagerEngine {
         shiftPaused = false;
     }
     private boolean isPositiveInteger(String input) {
-        if (input == null || input.isEmpty()) {
+        if (input == null) {
+            return false;
+        }
+
+        input = input.trim();
+
+        if (input.isEmpty()) {
             return false;
         }
 
@@ -306,7 +314,7 @@ public class WarehouseManagerEngine {
             }
         }
 
-        return true;
+        return Integer.parseInt(input) > 0;
     }
 
 
