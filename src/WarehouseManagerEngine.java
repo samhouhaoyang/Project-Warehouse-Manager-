@@ -31,11 +31,6 @@ public class WarehouseManagerEngine {
     public static void main(String[] args) {
         WarehouseManagerEngine engine = new WarehouseManagerEngine();
         engine.run(args);
-
-
-
-
-
     }
 
 
@@ -76,9 +71,7 @@ public class WarehouseManagerEngine {
                     default -> System.out.println("Invalid input.");
                 }
             }
-
-
-            }
+        }
     }
         private void startWarehouseShift () {
             shiftPaused = false;
@@ -162,26 +155,30 @@ public class WarehouseManagerEngine {
                     isRunning = false;
                 }
             }
-
-
         }
-        private void handleDelivery () {
-            if (!forklift.isAtStart()) {
-                System.out.println("You must stand on the START cell (O) to deliver.");
+        private void handleDelivery() {
+            if (!forklift.hasItem()) {
+                System.out.println("You are not carrying any item.");
                 return;
             }
 
-            if (!forklift.hasItem()) {
-                System.out.println("You are not carrying any item.");
+            if (!forklift.isAtStart()) {
+                System.out.println("You must stand on the START cell (O) to deliver.");
                 return;
             }
 
             Item deliveredItem = forklift.deliverItem();
             System.out.println("Item delivered successfully.");
 
-            // TODO: add operation history required
-            history.addRecord(new OperationRecord(OperationType.PLACE_ITEM, map.getWarehouseId(),
-                    forklift.getRow(), forklift.getCol(), deliveredItem.getName(), forklift.getSuccessCount(), forklift.getHitCount()));
+            history.addRecord(new OperationRecord(
+                    OperationType.PLACE_ITEM,
+                    map.getWarehouseId(),
+                    forklift.getRow(),
+                    forklift.getCol(),
+                    deliveredItem.getName(),
+                    forklift.getSuccessCount(),
+                    forklift.getHitCount()
+            ));
         }
         private void makeMove (Movement move){
             int[] destination = forklift.findDestination(move);
@@ -257,7 +254,7 @@ public class WarehouseManagerEngine {
                         itemInput = itemInput.trim();
 
                         if (!isPositiveInteger(itemInput)){
-                            System.out.println("Invalid item index.");
+                            System.out.println("Invalid input.");
                         }else {
                             int itemIndex = Integer.parseInt(itemInput) - 1;
                             // since the item list start with 1 but java starts with 0 in an array
@@ -265,7 +262,7 @@ public class WarehouseManagerEngine {
 
 
                             if (pickedItem == null) {
-                                System.out.println("Invalid item index.");
+                                System.out.println("Invalid input.");
                             } else {
                                 forklift.pickUpItem(pickedItem);
                                 System.out.println("Item picked successfully.");

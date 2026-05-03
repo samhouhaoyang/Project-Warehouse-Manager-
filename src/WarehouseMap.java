@@ -27,8 +27,6 @@ public class WarehouseMap {
         //TODO: set other variables here
 
         initialiseNewWarehouse();
-        //printMap();
-        //debugShelves();
     }
     public int getWarehouseId() {
         return warehouseId;
@@ -61,8 +59,6 @@ public class WarehouseMap {
         initialiseNewWarehouse();
     }
     private void initialiseGrid() {
-        // TODO: initialise map by looping through Array
-        // TODO: set the boundary, start position and mark everything else as open position
         this.grid = new WarehouseCell[rows][cols];
         char symbol;
         for (int i = 0; i < rows; i++) {
@@ -106,8 +102,6 @@ public class WarehouseMap {
     }
 
     private void placeRestrictedCells(int count) {
-        //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places.
-        // The maximum number of restricted places are defined by the count parameter in this method.
         for (int i = 0; i < count; i++) {
             WarehouseCell cell = findRandomEmptyCell();
             if(cell != null){
@@ -118,16 +112,12 @@ public class WarehouseMap {
     }
 
     private void placeShelves(int count) {
-        //TODO: the total shelves to be created defined by the count parameter
-        //TODO: based on number of shelves to be created, generate random row/col positions and fill up with Shelves.
-        //TODO: for each shelf generated you need add items to the shelf
         for (int i = 0; i < count; i++) {
             WarehouseCell cell = findRandomEmptyCell();
             if(cell != null){
                 cell.setSymbol(Constants.SHELF);
                 populateShelf(cell);
             }
-
         }
 
 
@@ -153,6 +143,8 @@ public class WarehouseMap {
         return null;
     }
 
+
+
     private void populateShelf(WarehouseCell cell) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
@@ -166,8 +158,6 @@ public class WarehouseMap {
         }
         cell.setShelf(shelf);
 
-        // shelf.printItems();
-
     }
 
     private void printMap() {
@@ -179,15 +169,7 @@ public class WarehouseMap {
             System.out.println();
         }
     }
-    public void printMap(WarehouseMap map) {
-        for (int i = 0; i < map.getRows(); i++) {
-            for (int j = 0; j < map.getCols(); j++) {
-                System.out.print(map.getGrid()[i][j].getSymbol());
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
+
     public void printMap(Forklift forklift) {
         System.out.println("Warehouse ID: " + warehouseId);
         Messages.printLegend();

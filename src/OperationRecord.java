@@ -57,6 +57,4 @@ public class OperationRecord {
 
         return type + " " + itemName + " at (" + row + "," + col + ") in warehouse " + warehouseId;
     }
-
-
 }
