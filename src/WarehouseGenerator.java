@@ -56,10 +56,7 @@ public class WarehouseGenerator {
      * @return randomly chosen item name
      */
     public String randomItemName() {
-        // Generate a valid random index for the item name array
-        int index = generateInt(0, Constants.getDefaultItemNameCount());
-
-        // Return the item name at the selected index
-        return Constants.getDefaultItemName(index);
+        int index = generateInt(0, Constants.DEFAULT_ITEM_NAMES.length);
+        return Constants.DEFAULT_ITEM_NAMES[index];
     }
 }

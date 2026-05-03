@@ -14,7 +14,11 @@ public class OperationHistory {
         this.recordCount = 0;
     }
 
-
+    /**
+     * Adds a new operation record to the history, resizing the internal array if needed.
+     *
+     * @param record operation record to add
+     */
     public void addRecord(OperationRecord record){
         if (recordCount == records.length){
             realloc();
@@ -24,7 +28,7 @@ public class OperationHistory {
         recordCount++;
     }
 
-    public void realloc(){
+    private void realloc(){
         OperationRecord[] newRecords = new OperationRecord[records.length * 2];
 
         for(int i = 0; i < records.length; i++){
@@ -37,7 +41,9 @@ public class OperationHistory {
         return recordCount == 0;
     }
 
-
+    /**
+     * Prints all operation records in chronological order.
+     */
     public void printHistory(){
         if (recordsIsEmpty()){
             System.out.println("No operation history available.");

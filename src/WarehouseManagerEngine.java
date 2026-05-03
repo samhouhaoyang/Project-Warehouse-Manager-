@@ -68,7 +68,7 @@ public class WarehouseManagerEngine {
                     case 3 -> viewOperationHistory();
                     case 4 -> resetShiftAndWarehouse();
                     case 5 -> abandonAndExit();
-                    default -> System.out.println("Invalid input.");
+                    default -> System.out.println(Constants.INVALID_INPUT);
                 }
             }
         }
@@ -137,7 +137,7 @@ public class WarehouseManagerEngine {
                     }
                     case DELIVER -> handleDelivery();
                     case INVALID -> {
-                        System.out.println("Invalid input.");
+                        System.out.println(Constants.INVALID_INPUT);
                         history.addRecord(new OperationRecord(
                                 OperationType.HIT_WALL,
                                 map.getWarehouseId(),
@@ -168,7 +168,7 @@ public class WarehouseManagerEngine {
             }
 
             Item deliveredItem = forklift.deliverItem();
-            System.out.println("Item delivered successfully.");
+            System.out.println(Constants.ITEM_DELIVERED_SUCCESSFULLY);
 
             history.addRecord(new OperationRecord(
                     OperationType.PLACE_ITEM,
@@ -188,7 +188,6 @@ public class WarehouseManagerEngine {
 
             if (map.isLegalMove(targetCell)) {
                 forklift.moveTo(targetRow, targetCol);
-                // TODO:
                 // add operation history
                 history.addRecord(new OperationRecord(OperationType.MOVE,
                         map.getWarehouseId(),
@@ -204,7 +203,7 @@ public class WarehouseManagerEngine {
             } else {
                 System.out.println("You cannot enter that area.");
                 forklift.recordHit();
-                // TODO: add operation history
+                // add operation history
                 if (targetCell.getSymbol() == Constants.RESTRICTED) {
                     history.addRecord(new OperationRecord(OperationType.HIT_RESTRICTED,
                             map.getWarehouseId(),
@@ -254,49 +253,53 @@ public class WarehouseManagerEngine {
                             forklift.getHitCount()
                     ));
                 }
-                case PICK -> {
-                    // 1. PICK BUT FAIL
-                    if (forklift.hasItem()) {
-                        System.out.println("You are already carrying an item. Place it before picking another.");
-                    } else if (shelf.isEmpty()) {
-                        System.out.println("No items on this shelf.");
-                    } else {
-                        Messages.printPickItemMessage();
-                        String itemInput = SCANNER.nextLine();
-                        itemInput = itemInput.trim();
-
-                        if (!isPositiveInteger(itemInput)){
-                            System.out.println("Invalid input.");
-                        }else {
-                            int itemIndex = Integer.parseInt(itemInput) - 1;
-                            // since the item list start with 1 but java starts with 0 in an array
-                            Item pickedItem = shelf.pickItem(itemIndex);
-
-
-                            if (pickedItem == null) {
-                                System.out.println("Invalid input.");
-                            } else {
-                                forklift.pickUpItem(pickedItem);
-                                System.out.println("Item picked successfully.");
-                                // TODO: update operation history if success
-
-                                history.addRecord(new OperationRecord(OperationType.PICK_ITEM,
-                                        map.getWarehouseId(),
-                                        forklift.getRow(),
-                                        forklift.getCol(),
-                                        pickedItem.getName(),
-                                        forklift.getSuccessCount(),
-                                        forklift.getHitCount()) );
-                            }
-                        }
-                    }
-                }
+                case PICK -> handlePickItem(shelf);
                 case QUIT -> inShelfMenu = false;
-                case INVALID -> System.out.println("Invalid input.");
+                case INVALID -> System.out.println(Constants.INVALID_INPUT);
             }
         }
     }
 
+    private void handlePickItem(Shelf shelf) {
+        if (forklift.hasItem()) {
+            System.out.println("You are already carrying an item. Place it before picking another.");
+            return;
+        }
+
+        if (shelf.isEmpty()) {
+            System.out.println(Constants.NO_ITEMS_ON_SHELF);
+            return;
+        }
+
+        Messages.printPickItemMessage();
+        String itemInput = SCANNER.nextLine().trim();
+
+        if (!isPositiveInteger(itemInput)) {
+            System.out.println(Constants.INVALID_INPUT);
+            return;
+        }
+
+        int itemIndex = Integer.parseInt(itemInput) - 1;
+        Item pickedItem = shelf.pickItem(itemIndex);
+
+        if (pickedItem == null) {
+            System.out.println(Constants.INVALID_INPUT);
+            return;
+        }
+
+        forklift.pickUpItem(pickedItem);
+        System.out.println(Constants.ITEM_PICKED_SUCCESSFULLY);
+
+        history.addRecord(new OperationRecord(
+                OperationType.PICK_ITEM,
+                map.getWarehouseId(),
+                forklift.getRow(),
+                forklift.getCol(),
+                pickedItem.getName(),
+                forklift.getSuccessCount(),
+                forklift.getHitCount()
+        ));
+    }
     private boolean isShiftCompleted() {
         return map.allShelvesVisitedAndEmpty() && !forklift.hasItem();
     }

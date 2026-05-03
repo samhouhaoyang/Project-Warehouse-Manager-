@@ -12,7 +12,7 @@ public class WarehouseMap {
     private final int rows;
     private final int cols;
     private int warehouseId;
-    // add the map variable here
+
     private final WarehouseGenerator generator;
     private WarehouseCell[][] grid;
     /**
@@ -34,15 +34,7 @@ public class WarehouseMap {
         return warehouseId;
     }
 
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
-
-    public WarehouseCell getCell(int row, int col){
+    WarehouseCell getCell(int row, int col){
         return grid[row][col];
     }
     //DO NOT MODIFY THIS METHOD

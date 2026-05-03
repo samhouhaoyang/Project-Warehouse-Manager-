@@ -6,18 +6,10 @@
 
 public final class Constants {
 
-    private static final String[] DEFAULT_ITEM_NAMES = {
+    public static final String[] DEFAULT_ITEM_NAMES = {
             "Box", "Pallet", "Monitor", "Keyboard", "Chair",
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
-
-    public static int getDefaultItemNameCount() {
-        return DEFAULT_ITEM_NAMES.length;
-    }
-
-    public static String getDefaultItemName(int index) {
-        return DEFAULT_ITEM_NAMES[index];
-    }
 
     public static final String HISTORY_HEADER_FORMATTER =
             "| %9s | %-15s | %-10s | %-5s | %-5s | %-19s |\n";
@@ -48,4 +40,9 @@ public final class Constants {
     public static  final int START_ROW = 1;
 
     public static final int INITIAL_CAPACITY = 10;
+
+    public static final String INVALID_INPUT = "Invalid input.";
+    public static final String NO_ITEMS_ON_SHELF = "No items on this shelf.";
+    public static final String ITEM_PICKED_SUCCESSFULLY = "Item picked successfully.";
+    public static final String ITEM_DELIVERED_SUCCESSFULLY = "Item delivered successfully.";
 }

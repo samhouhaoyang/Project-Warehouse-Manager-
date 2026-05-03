@@ -41,7 +41,7 @@ public class Shelf {
 
     public void printItems(){
         if(isEmpty()){
-            System.out.println("No items on this shelf.");
+            System.out.println(Constants.NO_ITEMS_ON_SHELF);
             return;
         }
 
@@ -52,7 +52,7 @@ public class Shelf {
 
     public void viewItem(int index){
         if (index < 0 || index >= itemCount) {
-            System.out.println("No items on this shelf.");
+            System.out.println(Constants.NO_ITEMS_ON_SHELF);
             return;
         }
 
@@ -62,7 +62,6 @@ public class Shelf {
     public Item pickItem(int index){
 
         if (index < 0 || index >= itemCount || items[index] == null){
-            //System.out.println("No items at position " + index + " in shelf");
             return null;
         }
         Item picked = items[index];
