@@ -4,6 +4,10 @@
  Student email - houhh@student.unimelb.edu.au
  */
 
+/**
+ * Stores constant values used throughout the warehouse manager program.
+ */
+
 public final class Constants {
 
     public static final String[] DEFAULT_ITEM_NAMES = {

@@ -3,12 +3,17 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
-
+/**
+ * Stores the chronological operation history for warehouse shifts.
+ */
 public class OperationHistory {
 
     private OperationRecord[] records;
     private int recordCount;
 
+    /**
+     * Creates an empty operation history with an initial fixed capacity.
+     */
     public OperationHistory() {
         records = new OperationRecord[Constants.INITIAL_CAPACITY];
         this.recordCount = 0;
@@ -19,24 +24,29 @@ public class OperationHistory {
      *
      * @param record operation record to add
      */
-    public void addRecord(OperationRecord record){
-        if (recordCount == records.length){
+    public void addRecord(OperationRecord record) {
+        // Resize before inserting when the internal array has reached full capacity.
+        if (recordCount == records.length) {
             realloc();
         }
 
+        // recordCount points to the next unused position in the partially filled array.
         records[recordCount] = record;
         recordCount++;
     }
 
-    private void realloc(){
+    private void realloc() {
+        // Double the capacity to reduce the number of future reallocations.
         OperationRecord[] newRecords = new OperationRecord[records.length * 2];
 
-        for(int i = 0; i < records.length; i++){
+        // Copy existing records into the new larger array.
+        for (int i = 0; i < records.length; i++) {
             newRecords[i] = records[i];
         }
-        records = newRecords;
 
+        records = newRecords;
     }
+
     private boolean recordsIsEmpty(){
         return recordCount == 0;
     }

@@ -117,111 +117,134 @@ public class WarehouseManagerEngine {
             };
         }
 
-        private void runMovementSubMenu () {
-            boolean isRunning = true;
+    private void runMovementSubMenu() {
+        boolean isRunning = true;
 
-            while (isRunning) {
-                map.printMap(forklift);
+        while (isRunning) {
+            map.printMap(forklift);
+            Messages.printMovementMessage();
 
-                Messages.printMovementMessage();
+            String input = SCANNER.nextLine();
+            Movement move = parseMovement(input);
 
-                String input = SCANNER.nextLine();
-                Movement move = parseMovement(input);
+            switch (move) {
+                case UP, DOWN, LEFT, RIGHT -> makeMove(move);
 
-                switch (move) {
-                    case UP, DOWN, LEFT, RIGHT -> makeMove(move);
-                    case QUIT -> {
-                        shiftPaused = true;
-                        isRunning = false;
-                        System.out.println("Shift paused.");
-                    }
-                    case DELIVER -> handleDelivery();
-                    case INVALID -> {
-                        System.out.println(Constants.INVALID_INPUT);
-                        history.addRecord(new OperationRecord(
-                                OperationType.HIT_WALL,
-                                map.getWarehouseId(),
-                                forklift.getRow(),
-                                forklift.getCol(),
-                                forklift.getSuccessCount(),
-                                forklift.getHitCount()
-                        ));
-                    }
-                }
-                // End shift automatically when it is complete
-                if (isRunning && isShiftCompleted()) {
-                    map.printMap(forklift);
-                    completeShift();
+                case QUIT -> {
+                    // Q returns to the main menu without resetting the current warehouse state.
+                    shiftPaused = true;
                     isRunning = false;
+                    System.out.println("Shift paused.");
                 }
+
+                case DELIVER -> handleDelivery();
+
+                case INVALID -> {
+                    System.out.println(Constants.INVALID_INPUT);
+
+                    // EdDiscussion clarification: invalid movement input is recorded as HIT_WALL,
+                    // but it is not a real wall collision, so hitCount is not incremented.
+                    history.addRecord(new OperationRecord(
+                            OperationType.HIT_WALL,
+                            map.getWarehouseId(),
+                            forklift.getRow(),
+                            forklift.getCol(),
+                            forklift.getSuccessCount(),
+                            forklift.getHitCount()
+                    ));
+                }
+            }
+
+            // Completion is checked after each command because a successful delivery may finish the shift.
+            if (isRunning && isShiftCompleted()) {
+                map.printMap(forklift);
+                completeShift();
+                isRunning = false;
             }
         }
-        private void handleDelivery() {
-            if (!forklift.hasItem()) {
-                System.out.println("You are not carrying any item.");
-                return;
-            }
+    }
 
-            if (!forklift.isAtStart()) {
-                System.out.println("You must stand on the START cell (O) to deliver.");
-                return;
-            }
+    private void handleDelivery() {
+        // Check whether an item is carried first so the correct message is printed
+        // even if the forklift is not currently on the START cell.
+        if (!forklift.hasItem()) {
+            System.out.println("You are not carrying any item.");
+            return;
+        }
 
-            Item deliveredItem = forklift.deliverItem();
-            System.out.println(Constants.ITEM_DELIVERED_SUCCESSFULLY);
+        // A carried item can only be delivered from the START cell.
+        if (!forklift.isAtStart()) {
+            System.out.println("You must stand on the START cell (O) to deliver.");
+            return;
+        }
+
+        Item deliveredItem = forklift.deliverItem();
+        System.out.println(Constants.ITEM_DELIVERED_SUCCESSFULLY);
+
+        // Record the successful delivery using the delivered item's name.
+        history.addRecord(new OperationRecord(
+                OperationType.PLACE_ITEM,
+                map.getWarehouseId(),
+                forklift.getRow(),
+                forklift.getCol(),
+                deliveredItem.getName(),
+                forklift.getSuccessCount(),
+                forklift.getHitCount()
+        ));
+    }
+    private void makeMove(Movement move) {
+        // Calculate the destination first; the forklift position is not changed yet.
+        int[] destination = forklift.findDestination(move);
+        int targetRow = destination[0];
+        int targetCol = destination[1];
+        WarehouseCell targetCell = map.getCell(targetRow, targetCol);
+
+        if (map.isLegalMove(targetCell)) {
+            // Only legal moves update the forklift position and successful move counter.
+            forklift.moveTo(targetRow, targetCol);
 
             history.addRecord(new OperationRecord(
-                    OperationType.PLACE_ITEM,
+                    OperationType.MOVE,
                     map.getWarehouseId(),
                     forklift.getRow(),
                     forklift.getCol(),
-                    deliveredItem.getName(),
                     forklift.getSuccessCount(),
                     forklift.getHitCount()
             ));
-        }
-        private void makeMove (Movement move){
-            int[] destination = forklift.findDestination(move);
-            int targetRow = destination[0];
-            int targetCol = destination[1];
-            WarehouseCell targetCell = map.getCell(targetRow, targetCol);
 
-            if (map.isLegalMove(targetCell)) {
-                forklift.moveTo(targetRow, targetCol);
-                // add operation history
-                history.addRecord(new OperationRecord(OperationType.MOVE,
+            // A shelf cell is enterable, but it also opens the shelf submenu.
+            if (targetCell.getSymbol() == Constants.SHELF) {
+                map.printMap(forklift);
+                runShelfSubMenu(targetCell.getShelf());
+            }
+        } else {
+            System.out.println("You cannot enter that area.");
+
+            // Wall and restricted-cell collisions are real hits, so hitCount increases here.
+            forklift.recordHit();
+
+            // Classify restricted cells and walls as records to the history table.
+            if (targetCell.getSymbol() == Constants.RESTRICTED) {
+                history.addRecord(new OperationRecord(
+                        OperationType.HIT_RESTRICTED,
                         map.getWarehouseId(),
                         forklift.getRow(),
                         forklift.getCol(),
                         forklift.getSuccessCount(),
-                        forklift.getHitCount()));
-
-                if (targetCell.getSymbol() == Constants.SHELF) {
-                    map.printMap(forklift);
-                    runShelfSubMenu(targetCell.getShelf());
-                }
+                        forklift.getHitCount()
+                ));
             } else {
-                System.out.println("You cannot enter that area.");
-                forklift.recordHit();
-                // add operation history
-                if (targetCell.getSymbol() == Constants.RESTRICTED) {
-                    history.addRecord(new OperationRecord(OperationType.HIT_RESTRICTED,
-                            map.getWarehouseId(),
-                            forklift.getRow(),
-                            forklift.getCol(),
-                            forklift.getSuccessCount(),
-                            forklift.getHitCount()));
-                } else {
-                    history.addRecord(new OperationRecord(OperationType.HIT_WALL,
-                            map.getWarehouseId(),
-                            forklift.getRow(),
-                            forklift.getCol(),
-                            forklift.getSuccessCount(),
-                            forklift.getHitCount()));
-                }
-
+                history.addRecord(new OperationRecord(
+                        OperationType.HIT_WALL,
+                        map.getWarehouseId(),
+                        forklift.getRow(),
+                        forklift.getCol(),
+                        forklift.getSuccessCount(),
+                        forklift.getHitCount()
+                ));
             }
         }
+    }
 
     private ShelfCommand parseShelfCommand(String input) {
         input = input.trim().toUpperCase();
@@ -260,12 +283,19 @@ public class WarehouseManagerEngine {
         }
     }
 
+    /**
+     * Handles the shelf item-picking workflow.
+     *
+     * @param shelf shelf currently being accessed
+     */
     private void handlePickItem(Shelf shelf) {
+        // A forklift can carry at most one item at a time.
         if (forklift.hasItem()) {
             System.out.println("You are already carrying an item. Place it before picking another.");
             return;
         }
 
+        // Avoid asking for an item number when there is nothing to pick.
         if (shelf.isEmpty()) {
             System.out.println(Constants.NO_ITEMS_ON_SHELF);
             return;
@@ -274,14 +304,17 @@ public class WarehouseManagerEngine {
         Messages.printPickItemMessage();
         String itemInput = SCANNER.nextLine().trim();
 
+        // Item numbers must be positive because the menu shown to the user starts from 1.
         if (!isPositiveInteger(itemInput)) {
             System.out.println(Constants.INVALID_INPUT);
             return;
         }
 
+        // Convert the user's 1-based item number to Java's 0-based array index.
         int itemIndex = Integer.parseInt(itemInput) - 1;
         Item pickedItem = shelf.pickItem(itemIndex);
 
+        // pickItem returns null when the converted index is outside the filled item range.
         if (pickedItem == null) {
             System.out.println(Constants.INVALID_INPUT);
             return;
@@ -290,6 +323,7 @@ public class WarehouseManagerEngine {
         forklift.pickUpItem(pickedItem);
         System.out.println(Constants.ITEM_PICKED_SUCCESSFULLY);
 
+        // Use the local pickedItem reference instead of exposing the forklift's carried item.
         history.addRecord(new OperationRecord(
                 OperationType.PICK_ITEM,
                 map.getWarehouseId(),
@@ -300,6 +334,7 @@ public class WarehouseManagerEngine {
                 forklift.getHitCount()
         ));
     }
+
     private boolean isShiftCompleted() {
         return map.allShelvesVisitedAndEmpty() && !forklift.hasItem();
     }
@@ -323,6 +358,7 @@ public class WarehouseManagerEngine {
             return false;
         }
 
+        // Check every character before parsing to avoid invalid numeric input.
         for (int i = 0; i < input.length(); i++) {
             char currentChar = input.charAt(i);
 
@@ -330,6 +366,8 @@ public class WarehouseManagerEngine {
                 return false;
             }
         }
+
+        // Zero is not a valid positive menu option or item number.
         return Integer.parseInt(input) > 0;
     }
 }

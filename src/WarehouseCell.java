@@ -3,13 +3,22 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
-
+/**
+ * Represents a single cell in the warehouse grid.
+ */
 public class WarehouseCell {
     private final int row;
     private final int col;
     private char symbol;
     private Shelf shelf;
 
+    /**
+     * Creates a warehouse cell with a position and display symbol.
+     *
+     * @param row cell row
+     * @param col cell column
+     * @param symbol display symbol for the cell
+     */
     public WarehouseCell(int row, int col, char symbol) {
         this.row = row;
         this.col = col;
@@ -25,12 +34,29 @@ public class WarehouseCell {
         this.symbol = symbol;
     }
 
+    /**
+     * Gets the row of this cell.
+     *
+     * @return cell row
+     */
     public int getRow() {
         return row;
     }
+
+    /**
+     * Gets the column of this cell.
+     *
+     * @return cell column
+     */
     public int getCol() {
         return col;
     }
+
+    /**
+     * Gets the symbol of this cell.
+     *
+     * @return cell symbol
+     */
     public char getSymbol() {
         return symbol;
     }

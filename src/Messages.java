@@ -7,12 +7,18 @@
 /**
  * Class for user-facing messages.
  */
-public final class Messages {
 
+public final class Messages {
+    /**
+     * Prints the welcome message.
+     */
     public static void printWelcome() {
         System.out.println("Welcome to Warehouse Manager Console.");
     }
 
+    /**
+     * Prints the main warehouse manager menu.
+     */
     public static void printMainMenuCommands() {
         System.out.println("\n=== Warehouse Manager Menu ===");
         System.out.println("1. Start warehouse shift.");
@@ -23,6 +29,9 @@ public final class Messages {
         System.out.print("> ");
     }
 
+    /**
+     * Prints the movement command menu.
+     */
     public static void printMovementMessage(){
         System.out.println("Enter direction:\n" +
                 "U - Up.\n" +
@@ -34,6 +43,9 @@ public final class Messages {
         System.out.print("> ");
     }
 
+    /**
+     * Prints the shelf interaction menu.
+     */
     public static void printShelfMessage(){
         System.out.println("Shelf Menu:");
         System.out.println("Press V to view items.");
@@ -42,10 +54,16 @@ public final class Messages {
         System.out.print("> ");
     }
 
+    /**
+     * Prompts the user to enter an item number for picking.
+     */
     public static void printPickItemMessage(){
         System.out.print("Enter item number to pick (e.g., 1): ");
     }
 
+    /**
+     * Prints the legend explaining map symbols.
+     */
     public static void printLegend(){
         System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift");
     }

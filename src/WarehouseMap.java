@@ -30,37 +30,62 @@ public class WarehouseMap {
 
         initialiseNewWarehouse();
     }
+
+    /**
+     * Gets the current warehouse identifier.
+     *
+     * @return warehouse id
+     */
     public int getWarehouseId() {
         return warehouseId;
     }
 
+    /**
+     * Gets the cell at the specified position.
+     *
+     * @param row target row
+     * @param col target column
+     * @return warehouse cell at the position
+     */
     WarehouseCell getCell(int row, int col){
         return grid[row][col];
     }
+
     //DO NOT MODIFY THIS METHOD
     private void generateMap() {
         initialiseGrid();
         fillSpecialCells();
     }
+
     private void initialiseNewWarehouse() { // this method is used to update the id everytime the constructor is called
         warehouseId++;
         generateMap();
     }
+
+    /**
+     * Resets the warehouse by generating a new warehouse layout.
+     */
     public void reset() {
         initialiseNewWarehouse();
     }
+
     private void initialiseGrid() {
         this.grid = new WarehouseCell[rows][cols];
         char symbol;
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if(i == 0 || i == rows - 1 || j == 0 || j == cols - 1){
+                // Border cells are always walls.
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
                     symbol = Constants.WALL;
-                } else if(i == 1 && j == 1) {
+                    // The forklift starts from the fixed START position.
+                } else if (i == Constants.START_ROW && j == Constants.START_COL) {
                     symbol = Constants.START;
-                }else{
+                    // All other inner cells start as aisles before shelves/restricted cells are placed.
+                } else {
                     symbol = Constants.AISLE;
                 }
+
                 grid[i][j] = new WarehouseCell(i, j, symbol);
             }
         }
@@ -129,8 +154,6 @@ public class WarehouseMap {
         return null;
     }
 
-
-
     private void populateShelf(WarehouseCell cell) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
@@ -145,6 +168,11 @@ public class WarehouseMap {
 
     }
 
+    /**
+     * Prints the current warehouse map with the forklift position shown.
+     *
+     * @param forklift forklift to display on the map
+     */
     public void printMap(Forklift forklift) {
         System.out.println("Warehouse ID: " + warehouseId);
         Messages.printLegend();
@@ -152,10 +180,10 @@ public class WarehouseMap {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-
-                if (i == forklift.getRow() && j == forklift.getCol()){
+                // Display F at the forklift's current position without changing the actual map cell.
+                if (i == forklift.getRow() && j == forklift.getCol()) {
                     System.out.print(Constants.FORKLIFT);
-                }else{
+                } else {
                     System.out.print(grid[i][j].getSymbol());
                 }
                 System.out.print(" ");
@@ -164,11 +192,22 @@ public class WarehouseMap {
         }
     }
 
+    /**
+     * Checks whether the forklift can legally enter the specified cell.
+     *
+     * @param cell target cell
+     * @return true if the cell can be entered, otherwise false
+     */
     public boolean isLegalMove(WarehouseCell cell) {
         // check for wall cell
         return cell.getSymbol() != Constants.WALL && cell.getSymbol() != Constants.RESTRICTED;
     }
 
+    /**
+     * Checks whether all shelves have been visited and emptied.
+     *
+     * @return true if all shelves are visited and empty, otherwise false
+     */
     public boolean allShelvesVisitedAndEmpty() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -177,6 +216,7 @@ public class WarehouseMap {
                 if (cell.getSymbol() == Constants.SHELF) {
                     Shelf shelf = cell.getShelf();
 
+                    // A shelf only counts as complete after it has been visited and emptied.
                     if (!shelf.isVisited() || !shelf.isEmpty()) {
                         return false;
                     }
