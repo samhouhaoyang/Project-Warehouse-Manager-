@@ -142,7 +142,17 @@ public class WarehouseManagerEngine {
                         System.out.println("Shift paused.");
                     }
                     case DELIVER -> handleDelivery();
-                    case INVALID -> System.out.println("Invalid input.");
+                    case INVALID -> {
+                        System.out.println("Invalid input.");
+                        history.addRecord(new OperationRecord(
+                                OperationType.HIT_WALL,
+                                map.getWarehouseId(),
+                                forklift.getRow(),
+                                forklift.getCol(),
+                                forklift.getSuccessCount(),
+                                forklift.getHitCount()
+                        ));
+                    }
                 }
                 // End shift automatically when it is complete
                 if (isRunning && isShiftCompleted()) {
