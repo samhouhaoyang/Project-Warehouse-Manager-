@@ -31,16 +31,13 @@ public class WarehouseMap {
     public int getWarehouseId() {
         return warehouseId;
     }
-    public int getRows(){
+
+    public int getRows() {
         return rows;
     }
 
-    public int getCols(){
+    public int getCols() {
         return cols;
-    }
-
-    public WarehouseCell[][] getGrid(){
-        return grid;
     }
 
     public WarehouseCell getCell(int row, int col){
@@ -148,7 +145,6 @@ public class WarehouseMap {
     private void populateShelf(WarehouseCell cell) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
-        // TODO: add items to the shelf
         Shelf shelf = new Shelf(cell.getRow(), cell.getCol(), itemCount);
 
         for (int i = 0; i < itemCount; i++) {
@@ -158,16 +154,6 @@ public class WarehouseMap {
         }
         cell.setShelf(shelf);
 
-    }
-
-    private void printMap() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                System.out.print(grid[i][j].getSymbol());
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
     }
 
     public void printMap(Forklift forklift) {

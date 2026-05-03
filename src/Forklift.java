@@ -30,9 +30,6 @@ public class Forklift {
         return successCount;
     }
 
-    public Item getItem(){
-        return item;
-    }
 
     public boolean hasItem() {
         return item != null;

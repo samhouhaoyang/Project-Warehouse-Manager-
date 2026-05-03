@@ -268,9 +268,13 @@ public class WarehouseManagerEngine {
                                 System.out.println("Item picked successfully.");
                                 // TODO: update operation history if success
 
-                                history.addRecord(new OperationRecord(OperationType.PICK_ITEM, map.getWarehouseId(),
-                                        forklift.getRow(), forklift.getCol(),forklift.getItem().getName(),
-                                        forklift.getSuccessCount(), forklift.getHitCount()) );
+                                history.addRecord(new OperationRecord(OperationType.PICK_ITEM,
+                                        map.getWarehouseId(),
+                                        forklift.getRow(),
+                                        forklift.getCol(),
+                                        pickedItem.getName(),
+                                        forklift.getSuccessCount(),
+                                        forklift.getHitCount()) );
                             }
                         }
                     }

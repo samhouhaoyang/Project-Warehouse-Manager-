@@ -11,19 +11,11 @@ public class WarehouseCell {
         this.shelf = null;
 
     }
-    public WarehouseCell(int row, int col, char symbol, Shelf shelf) {
-        this.row = row;
-        this.col = col;
-        this.symbol = symbol;
-        this.shelf = shelf;
 
-    }
-
-
-    public void setShelf(Shelf shelf) {
+    void setShelf(Shelf shelf) {
         this.shelf = shelf;
     }
-    public void setSymbol(char symbol) {
+    void setSymbol(char symbol) {
         this.symbol = symbol;
     }
 
@@ -36,7 +28,7 @@ public class WarehouseCell {
     public char getSymbol() {
         return symbol;
     }
-    public Shelf getShelf() {
+    Shelf getShelf() {
         return shelf;
     }
 

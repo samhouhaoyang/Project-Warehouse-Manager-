@@ -6,10 +6,18 @@
 
 public final class Constants {
 
-    public static final String[] DEFAULT_ITEM_NAMES = {
+    private static final String[] DEFAULT_ITEM_NAMES = {
             "Box", "Pallet", "Monitor", "Keyboard", "Chair",
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
+
+    public static int getDefaultItemNameCount() {
+        return DEFAULT_ITEM_NAMES.length;
+    }
+
+    public static String getDefaultItemName(int index) {
+        return DEFAULT_ITEM_NAMES[index];
+    }
 
     public static final String HISTORY_HEADER_FORMATTER =
             "| %9s | %-15s | %-10s | %-5s | %-5s | %-19s |\n";

@@ -43,9 +43,7 @@ public class OperationHistory {
 
         return copy;
     }
-    public int getRecordCount(){
-        return recordCount;
-    }
+
     public void printHistory(){
         if (recordsIsEmpty()){
             System.out.println("No operation history available.");

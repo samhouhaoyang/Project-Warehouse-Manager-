@@ -44,11 +44,6 @@ public class Shelf {
         }
     }
 
-    public int getItemCount() {
-        return itemCount;
-    }
-
-
     public void viewItem(int index){
         if (index < 0 || index >= itemCount) {
             System.out.println("No items on this shelf.");
