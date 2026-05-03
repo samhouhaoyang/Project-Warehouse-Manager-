@@ -39,41 +39,44 @@ public class WarehouseManagerEngine {
 
 
     private void run(String[] args) {
-
         if (args.length != 3) {
             System.out.println("Invalid number of Command Line Arguments. Usage: java WarehouseManagerEngine <rows> <cols> <seed>");
             return;
         }
-        if (Integer.parseInt(args[0]) < 4 || Integer.parseInt(args[1]) < 4) {
+
+        int rows = Integer.parseInt(args[0]);
+        int cols = Integer.parseInt(args[1]);
+        long seed = Long.parseLong(args[2]);
+
+        if (rows < 4 || cols < 4) {
             System.out.println("Error: Rows and columns must be at least 4 to allow proper map layout.");
-        } else {
-            int rows = Integer.parseInt(args[0]);
-            int cols = Integer.parseInt(args[1]);
-            long seed = Integer.parseInt(args[2]);
+            return;
+        }
 
-            map = new WarehouseMap(rows, cols, seed);
-            forklift = new Forklift();
-            history = new OperationHistory();
-            running = true;
-            shiftPaused = false;
+        map = new WarehouseMap(rows, cols, seed);
+        forklift = new Forklift();
+        history = new OperationHistory();
+        running = true;
+        shiftPaused = false;
 
-            Messages.printWelcome();
-            while (running) {
-                Messages.printMainMenuCommands();
-                String input = SCANNER.nextLine();
-                input = input.trim();
-                int option = 0;
-                if (isPositiveInteger(input)) {
-                    option = Integer.parseInt(input);
-                }
-                switch (option) {
-                    case 1 -> startWarehouseShift();
-                    case 2 -> resumeLastShift();
-                    case 3 -> viewOperationHistory();
-                    case 4 -> resetShiftAndWarehouse();
-                    case 5 -> abandonAndExit();
-                    default -> System.out.println(Constants.INVALID_INPUT);
-                }
+        Messages.printWelcome();
+
+        while (running) {
+            Messages.printMainMenuCommands();
+            String input = SCANNER.nextLine().trim();
+
+            int option = 0;
+            if (isPositiveInteger(input)) {
+                option = Integer.parseInt(input);
+            }
+
+            switch (option) {
+                case 1 -> startWarehouseShift();
+                case 2 -> resumeLastShift();
+                case 3 -> viewOperationHistory();
+                case 4 -> resetShiftAndWarehouse();
+                case 5 -> abandonAndExit();
+                default -> System.out.println(Constants.INVALID_INPUT);
             }
         }
     }
