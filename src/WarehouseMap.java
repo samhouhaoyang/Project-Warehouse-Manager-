@@ -57,7 +57,8 @@ public class WarehouseMap {
         fillSpecialCells();
     }
 
-    private void initialiseNewWarehouse() { // this method is used to update the id everytime the constructor is called
+    private void initialiseNewWarehouse() {
+        // this method is used to update the id everytime the constructor is called
         warehouseId++;
         generateMap();
     }
@@ -78,9 +79,11 @@ public class WarehouseMap {
                 // Border cells are always walls.
                 if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
                     symbol = Constants.WALL;
-                    // The forklift starts from the fixed START position.
+
+                    // The START cell is fixed at the configured start position.
                 } else if (i == Constants.START_ROW && j == Constants.START_COL) {
                     symbol = Constants.START;
+
                     // All other inner cells start as aisles before shelves/restricted cells are placed.
                 } else {
                     symbol = Constants.AISLE;
@@ -157,7 +160,7 @@ public class WarehouseMap {
     private void populateShelf(WarehouseCell cell) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
 
-        Shelf shelf = new Shelf(cell.getRow(), cell.getCol(), itemCount);
+        Shelf shelf = new Shelf(itemCount);
 
         for (int i = 0; i < itemCount; i++) {
             String name = generator.randomItemName();
@@ -199,7 +202,7 @@ public class WarehouseMap {
      * @return true if the cell can be entered, otherwise false
      */
     public boolean isLegalMove(WarehouseCell cell) {
-        // check for wall cell
+        // The forklift cannot enter wall or restricted cells.
         return cell.getSymbol() != Constants.WALL && cell.getSymbol() != Constants.RESTRICTED;
     }
 

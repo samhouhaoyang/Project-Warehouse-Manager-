@@ -7,7 +7,6 @@
 /**
  * Class for user-facing messages.
  */
-
 public final class Messages {
     /**
      * Prints the welcome message.

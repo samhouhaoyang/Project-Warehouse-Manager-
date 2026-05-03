@@ -7,10 +7,9 @@
 /**
  * Stores constant values used throughout the warehouse manager program.
  */
-
 public final class Constants {
 
-    public static final String[] DEFAULT_ITEM_NAMES = {
+    static final String[] DEFAULT_ITEM_NAMES = {
             "Box", "Pallet", "Monitor", "Keyboard", "Chair",
             "Cable", "Book", "Toolkit", "Printer", "Router"
     };
@@ -41,7 +40,7 @@ public final class Constants {
     public static final int START_OFFSET = 1;
 
     public static final int START_COL = 1;
-    public static  final int START_ROW = 1;
+    public static final int START_ROW = 1;
 
     public static final int INITIAL_CAPACITY = 10;
 

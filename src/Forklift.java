@@ -3,6 +3,7 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
+
 /**
  * Represents the forklift controlled by the user during a warehouse shift.
  * Tracks its position, carried item, successful moves, and real collision hits.
@@ -119,18 +120,14 @@ public class Forklift {
     }
 
     /**
-     * Picks up an item if the forklift is not already carrying one.
+     * Stores the picked item on the forklift.
+     * This method assumes the caller has already checked that the forklift
+     * is not carrying another item and that the given item is not null.
      *
-     * @param item item to pick up
-     * @return true if the item is picked up successfully, otherwise false
+     * @param item item to be carried by the forklift
      */
-    public boolean pickUpItem(Item item){
-        if(this.item != null || item == null){
-            return false;
-        }
-
+    public void pickUpItem(Item item) {
         this.item = item;
-        return true;
     }
 
     /**

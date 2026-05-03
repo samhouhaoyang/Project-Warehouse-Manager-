@@ -73,49 +73,51 @@ public class WarehouseManagerEngine {
             }
         }
     }
-        private void startWarehouseShift () {
-            shiftPaused = false;
-            runMovementSubMenu();
-        }
-        private void resumeLastShift () {
-            if (!shiftPaused) {
-                System.out.println("No shift to resume.");
-                return;
-            }
 
-            shiftPaused = false;
-            runMovementSubMenu();
+    private void startWarehouseShift () {
+        shiftPaused = false;
+        runMovementSubMenu();
+    }
+
+    private void resumeLastShift () {
+        if (!shiftPaused) {
+            System.out.println("No shift to resume.");
+            return;
         }
 
-        private void viewOperationHistory () {
-            history.printHistory();
-        }
+        shiftPaused = false;
+        runMovementSubMenu();
+    }
 
-        private void resetShiftAndWarehouse () {
-            map.reset();
-            forklift.reset();
-            shiftPaused = false;
-            System.out.println("Shift and warehouse reset.");
-        }
+    private void viewOperationHistory () {
+        history.printHistory();
+    }
 
-        private void abandonAndExit () {
-            running = false;
-            System.out.println("Session abandoned. Goodbye!");
-        }
+    private void resetShiftAndWarehouse () {
+        map.reset();
+        forklift.reset();
+        shiftPaused = false;
+        System.out.println("Shift and warehouse reset.");
+    }
 
-        private Movement parseMovement (String input){
-            input = input.trim().toUpperCase();
+    private void abandonAndExit () {
+        running = false;
+        System.out.println("Session abandoned. Goodbye!");
+    }
 
-            return switch (input) {
-                case "U" -> Movement.UP;
-                case "D" -> Movement.DOWN;
-                case "L" -> Movement.LEFT;
-                case "R" -> Movement.RIGHT;
-                case "T" -> Movement.DELIVER;
-                case "Q" -> Movement.QUIT;
-                default -> Movement.INVALID;
-            };
-        }
+    private Movement parseMovement (String input){
+        input = input.trim().toUpperCase();
+
+        return switch (input) {
+            case "U" -> Movement.UP;
+            case "D" -> Movement.DOWN;
+            case "L" -> Movement.LEFT;
+            case "R" -> Movement.RIGHT;
+            case "T" -> Movement.DELIVER;
+            case "Q" -> Movement.QUIT;
+            default -> Movement.INVALID;
+        };
+    }
 
     private void runMovementSubMenu() {
         boolean isRunning = true;
@@ -321,8 +323,8 @@ public class WarehouseManagerEngine {
         }
 
         forklift.pickUpItem(pickedItem);
-        System.out.println(Constants.ITEM_PICKED_SUCCESSFULLY);
 
+        System.out.println(Constants.ITEM_PICKED_SUCCESSFULLY);
         // Use the local pickedItem reference instead of exposing the forklift's carried item.
         history.addRecord(new OperationRecord(
                 OperationType.PICK_ITEM,

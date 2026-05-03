@@ -3,6 +3,7 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
+
 /**
  * Represents a single cell in the warehouse grid.
  */

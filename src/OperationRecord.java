@@ -3,6 +3,7 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
+
 /**
  * Represents a single recorded warehouse operation.
  */
@@ -116,6 +117,7 @@ public class OperationRecord {
      *
      * @return operation record as text
      */
+    @Override
     public String toString() {
         if (itemName == null) {
             return type + " at (" + row + "," + col + ") in warehouse " + warehouseId;

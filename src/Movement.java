@@ -7,7 +7,6 @@
 /**
  * Represents possible movement menu commands entered by the user.
  */
-
 public enum Movement {
     UP,
     DOWN,

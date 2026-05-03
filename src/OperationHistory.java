@@ -3,6 +3,7 @@
  Student Id - 1462169
  Student email - houhh@student.unimelb.edu.au
  */
+
 /**
  * Stores the chronological operation history for warehouse shifts.
  */
@@ -40,7 +41,7 @@ public class OperationHistory {
         OperationRecord[] newRecords = new OperationRecord[records.length * 2];
 
         // Copy existing records into the new larger array.
-        for (int i = 0; i < records.length; i++) {
+        for (int i = 0; i < recordCount; i++) {
             newRecords[i] = records[i];
         }
 

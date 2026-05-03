@@ -8,22 +8,16 @@
  * Represents a shelf in the warehouse containing zero or more items.
  */
 public class Shelf {
-    private Item[] items;
-    private final int row;
-    private final int col;
-    private int itemCount = 0;
+    private final Item[] items;
+    private int itemCount;
     private boolean visited;
 
     /**
-     * Creates a shelf at the specified position with the given item capacity.
+     * Creates a shelf with the given item capacity.
      *
-     * @param row shelf row
-     * @param col shelf column
      * @param size maximum number of items this shelf can store
      */
-    public Shelf(int row, int col, int size) {
-        this.row = row;
-        this.col = col;
+    public Shelf(int size) {
         this.items = new Item[size];
         this.itemCount = 0;
         this.visited = false;
