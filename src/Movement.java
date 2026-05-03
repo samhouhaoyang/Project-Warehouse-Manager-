@@ -1,3 +1,9 @@
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
+
 public enum Movement {
     UP,
     DOWN,
@@ -5,12 +11,5 @@ public enum Movement {
     RIGHT,
     DELIVER,
     QUIT,
-    INVALID;
-
-    private int targetCol;
-    private int targetRow;
-
-
-
-
+    INVALID
 }

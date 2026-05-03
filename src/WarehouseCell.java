@@ -1,6 +1,12 @@
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
+
 public class WarehouseCell {
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
     private char symbol;
     private Shelf shelf;
 

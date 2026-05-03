@@ -190,8 +190,12 @@ public class WarehouseManagerEngine {
                 forklift.moveTo(targetRow, targetCol);
                 // TODO:
                 // add operation history
-                history.addRecord(new OperationRecord(OperationType.MOVE, map.getWarehouseId(),
-                        forklift.getRow(), forklift.getCol(), forklift.getSuccessCount(), forklift.getHitCount()));
+                history.addRecord(new OperationRecord(OperationType.MOVE,
+                        map.getWarehouseId(),
+                        forklift.getRow(),
+                        forklift.getCol(),
+                        forklift.getSuccessCount(),
+                        forklift.getHitCount()));
 
                 if (targetCell.getSymbol() == Constants.SHELF) {
                     map.printMap(forklift);
@@ -202,11 +206,19 @@ public class WarehouseManagerEngine {
                 forklift.recordHit();
                 // TODO: add operation history
                 if (targetCell.getSymbol() == Constants.RESTRICTED) {
-                    history.addRecord(new OperationRecord(OperationType.HIT_RESTRICTED, map.getWarehouseId(),
-                            forklift.getRow(), forklift.getCol(), forklift.getSuccessCount(), forklift.getHitCount()));
+                    history.addRecord(new OperationRecord(OperationType.HIT_RESTRICTED,
+                            map.getWarehouseId(),
+                            forklift.getRow(),
+                            forklift.getCol(),
+                            forklift.getSuccessCount(),
+                            forklift.getHitCount()));
                 } else {
-                    history.addRecord(new OperationRecord(OperationType.HIT_WALL, map.getWarehouseId(),
-                            forklift.getRow(), forklift.getCol(), forklift.getSuccessCount(), forklift.getHitCount()));
+                    history.addRecord(new OperationRecord(OperationType.HIT_WALL,
+                            map.getWarehouseId(),
+                            forklift.getRow(),
+                            forklift.getCol(),
+                            forklift.getSuccessCount(),
+                            forklift.getHitCount()));
                 }
 
             }
@@ -281,14 +293,14 @@ public class WarehouseManagerEngine {
                 }
                 case QUIT -> inShelfMenu = false;
                 case INVALID -> System.out.println("Invalid input.");
-
             }
         }
-
     }
+
     private boolean isShiftCompleted() {
         return map.allShelvesVisitedAndEmpty() && !forklift.hasItem();
     }
+
     private void completeShift() {
         System.out.println("Shift completed: all shelves visited and all items processed.");
 
@@ -296,6 +308,7 @@ public class WarehouseManagerEngine {
         forklift.reset();
         shiftPaused = false;
     }
+
     private boolean isPositiveInteger(String input) {
         if (input == null) {
             return false;
@@ -314,10 +327,6 @@ public class WarehouseManagerEngine {
                 return false;
             }
         }
-
         return Integer.parseInt(input) > 0;
     }
-
-
-
 }

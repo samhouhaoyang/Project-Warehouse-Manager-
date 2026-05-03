@@ -1,7 +1,13 @@
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
+
 public class Shelf {
     private Item[] items;
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
     private int itemCount = 0;
     private boolean visited;
 
@@ -49,8 +55,7 @@ public class Shelf {
             System.out.println("No items on this shelf.");
             return;
         }
-        // Here the item view list starts from 1 instead of index 0
-            // TODO: make sure the at (row, col) is removed after debugging
+
         System.out.println((index + 1) + ". " + items[index].getName());
     }
 

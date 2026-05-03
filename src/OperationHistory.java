@@ -1,4 +1,8 @@
-import jdk.dynalink.Operation;
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
 
 public class OperationHistory {
 
@@ -28,26 +32,15 @@ public class OperationHistory {
         }
         records = newRecords;
 
-
     }
     private boolean recordsIsEmpty(){
         return recordCount == 0;
     }
 
-        public OperationRecord[] getRecords() {
-        OperationRecord[] copy = new OperationRecord[recordCount];
-
-        for (int i = 0; i < recordCount; i++) {
-            copy[i] = records[i];
-        }
-
-        return copy;
-    }
 
     public void printHistory(){
         if (recordsIsEmpty()){
             System.out.println("No operation history available.");
-            return;
         } else{
             System.out.printf(Constants.HISTORY_HEADER_FORMATTER,
                     "Warehouse", "Type", "Item", "Moves", "Hits", "Position");
@@ -64,9 +57,6 @@ public class OperationHistory {
                         currRecord.getPosition()
                         );
             }
-
         }
-
     }
-
 }

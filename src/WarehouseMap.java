@@ -1,4 +1,8 @@
-import java.util.Scanner;
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
 
 /**
  * WarehouseMap represents a 2D warehouse grid that can be navigated by a forklift.
@@ -23,8 +27,6 @@ public class WarehouseMap {
         this.cols = cols;
         this.warehouseId = 0;
         this.generator = new WarehouseGenerator(seed);
-
-        //TODO: set other variables here
 
         initialiseNewWarehouse();
     }
@@ -70,8 +72,6 @@ public class WarehouseMap {
                 grid[i][j] = new WarehouseCell(i, j, symbol);
             }
         }
-
-
     }
 
     //DO NOT MODIFY THIS METHOD
@@ -116,9 +116,6 @@ public class WarehouseMap {
                 populateShelf(cell);
             }
         }
-
-
-
     }
 
     private WarehouseCell findRandomEmptyCell() {
@@ -180,7 +177,6 @@ public class WarehouseMap {
         return cell.getSymbol() != Constants.WALL && cell.getSymbol() != Constants.RESTRICTED;
     }
 
-
     public boolean allShelvesVisitedAndEmpty() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -195,9 +191,6 @@ public class WarehouseMap {
                 }
             }
         }
-
         return true;
     }
-
-
 }

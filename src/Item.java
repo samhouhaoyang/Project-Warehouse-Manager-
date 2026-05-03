@@ -1,13 +1,16 @@
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
+
 public class Item {
-    private String name;
+    private final String name;
 
     public Item(String name) {
         this.name = name;
     }
 
-    public Item(Item anotherItem) {
-        this.name = anotherItem.getName();
-    }
     public String getName() {
         return name;
     }

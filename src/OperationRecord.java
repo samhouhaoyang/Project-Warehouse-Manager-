@@ -1,11 +1,17 @@
+/**
+ Student Name - Haoyang Hou
+ Student Id - 1462169
+ Student email - houhh@student.unimelb.edu.au
+ */
+
 public class OperationRecord {
-    private OperationType type;
-    private int warehouseId;
-    private int row;
-    private int col;
-    private String itemName;
-    private int movesCount;
-    private int hitCount;
+    private final OperationType type;
+    private final int warehouseId;
+    private final int row;
+    private final int col;
+    private final String itemName;
+    private final int movesCount;
+    private final int hitCount;
 
     public OperationRecord(OperationType type, int warehouseId, int row, int col, int movesCount, int hitCount) {
         this.type = type;
